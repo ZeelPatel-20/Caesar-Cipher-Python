@@ -1,42 +1,65 @@
-# Caesar Cipher Program
+"""
+Caesar Cipher Encryption & Decryption Tool
+Author: Zeel Patel
+Description:
+A Python program to encrypt and decrypt messages using the Caesar Cipher algorithm.
+"""
 
 def encrypt(text, shift):
+    """Encrypt the given text using Caesar Cipher."""
     result = ""
 
     for char in text:
         if char.isalpha():
-            # Handle uppercase letters
             if char.isupper():
                 result += chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
-            # Handle lowercase letters
             else:
                 result += chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
         else:
-            # Keep spaces and symbols unchanged
+            # Keep spaces, numbers, and special characters unchanged
             result += char
 
     return result
 
 
 def decrypt(text, shift):
+    """Decrypt the given text using Caesar Cipher."""
     return encrypt(text, -shift)
 
 
-# Main Program
-print("=== Caesar Cipher Program ===")
+def main():
+    print("=" * 40)
+    print("      Caesar Cipher Program")
+    print("=" * 40)
 
-message = input("Enter your message: ")
-shift = int(input("Enter shift value: "))
+    message = input("Enter your message: ")
 
-choice = input("Type 'E' for Encrypt or 'D' for Decrypt: ").upper()
+    # Validate shift value
+    while True:
+        try:
+            shift = int(input("Enter shift value (0-25): "))
+            if 0 <= shift <= 25:
+                break
+            else:
+                print("Please enter a number between 0 and 25.")
+        except ValueError:
+            print("Invalid input! Please enter a numeric value.")
 
-if choice == 'E':
-    encrypted = encrypt(message, shift)
-    print("\nEncrypted Message:", encrypted)
+    choice = input("Type 'E' to Encrypt or 'D' to Decrypt: ").strip().upper()
 
-elif choice == 'D':
-    decrypted = decrypt(message, shift)
-    print("\nDecrypted Message:", decrypted)
+    if choice == 'E':
+        encrypted = encrypt(message, shift)
+        print("\nEncrypted Message:")
+        print(encrypted)
 
-else:
-    print("Invalid choice! Please select E or D.")
+    elif choice == 'D':
+        decrypted = decrypt(message, shift)
+        print("\nDecrypted Message:")
+        print(decrypted)
+
+    else:
+        print("\nInvalid choice! Please enter E or D.")
+
+
+if __name__ == "__main__":
+    main()
